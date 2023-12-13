@@ -3,38 +3,39 @@ import { useNavigate, Link } from "react-router-dom";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { getDatabase, ref, set, remove } from "firebase/database";
 import firebaseApp from "../../firebase";
+import useFetch from "../CustomHook/useFetch";
 
 const SentMails = () => {
   const navigate = useNavigate();
   const [allEmails, setAllEmails] = useState([]);
+  const storedEmail = localStorage.getItem("email");
+
+  const [data] = useFetch(
+    "https://mailbox-client-react-default-rtdb.firebaseio.com/mails.json"
+  );
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
-
     const getAllEmails = async () => {
       try {
-        const response = await fetch(
-          "https://mailbox-client-react-default-rtdb.firebaseio.com/mails.json"
-        );
-        const data = await response.json();
+        if (data) {
+          const emailsWithId = Object.entries(data).map(([id, email]) => ({
+            id,
+            ...email,
+          }));
 
-        const emailsWithId = Object.entries(data).map(([id, email]) => ({
-          id,
-          ...email,
-        }));
+          const filteredEmails = emailsWithId.filter(
+            (email) => email.from === storedEmail
+          );
 
-        const filteredEmails = emailsWithId.filter(
-          (email) => email.from === storedEmail
-        );
-
-        setAllEmails(filteredEmails);
+          setAllEmails(filteredEmails);
+        }
       } catch (error) {
         console.error("Error fetching emails:", error);
       }
     };
 
     getAllEmails();
-  }, []);
+  }, [data, storedEmail]);
 
   const markAsRead = async (id) => {
     const updatedEmails = allEmails.map((email) =>
@@ -52,19 +53,19 @@ const SentMails = () => {
     }
   };
 
-  const deleteMail = async(id) => {
+  const deleteMail = async (id) => {
     const db = getDatabase(firebaseApp);
     const emailsRef = ref(db, `mails/${id}`);
 
-    try{
+    try {
       await remove(emailsRef, id);
-      setAllEmails((prevEmails) => prevEmails.filter((email) => email.id !== id));
-
-    }
-    catch (error) {
+      setAllEmails((prevEmails) =>
+        prevEmails.filter((email) => email.id !== id)
+      );
+    } catch (error) {
       console.log("Error deleting");
     }
-  }
+  };
 
   return (
     <div>
@@ -78,10 +79,18 @@ const SentMails = () => {
               <strong> Content:</strong> {email.content}
               <strong> Timestamp:</strong>{" "}
               {new Date(email.timestamp).toLocaleString()}
-              <Link onClick={() => markAsRead(email.id)} to={`/email/${email.id}`}>
+              <Link
+                onClick={() => markAsRead(email.id)}
+                to={`/email/${email.id}`}
+              >
                 Read More
               </Link>
-              <button className="btn btn-danger" onClick={() => deleteMail(email.id)}>Delete</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteMail(email.id)}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
@@ -89,7 +98,10 @@ const SentMails = () => {
         <p>No emails found.</p>
       )}
 
-      <button onClick={() => navigate("/compose")} className="btn btn-primary mt-3">
+      <button
+        onClick={() => navigate("/compose")}
+        className="btn btn-primary mt-3"
+      >
         Compose Email
       </button>
     </div>
@@ -97,4 +109,3 @@ const SentMails = () => {
 };
 
 export default SentMails;
-

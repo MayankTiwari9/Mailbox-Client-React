@@ -31,7 +31,7 @@ const Mails = () => {
       from: userEmail,
       content: editorState.getCurrentContent().getPlainText(),
       timestamp: serverTimestamp(),
-      messageRead: false
+      messageRead: false,
     };
 
     await push(emailsRef, newEmail);
@@ -40,13 +40,13 @@ const Mails = () => {
     setTest("");
     setEditorState(EditorState.createEmpty());
   };
-  
 
   return (
     <form onSubmit={submitEmail} className="m-4">
       <div>
         <label>To:- </label>
-        <input  className="w-100 border border-bottom "
+        <input
+          className="w-100 border border-bottom "
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +54,8 @@ const Mails = () => {
       </div>
       <div>
         <label>Test main:- </label>
-        <input className="w-100 border border-bottom "
+        <input
+          className="w-100 border border-bottom "
           type="text"
           value={test}
           onChange={(e) => setTest(e.target.value)}
@@ -67,7 +68,9 @@ const Mails = () => {
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
       />
-      <button type="submit" className="btn btn-primary mt-3">Send</button>
+      <button type="submit" className="btn btn-primary mt-3">
+        Send
+      </button>
     </form>
   );
 };

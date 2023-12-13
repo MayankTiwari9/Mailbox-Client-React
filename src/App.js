@@ -19,8 +19,8 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/compose" element={<Mails />} />
-        <Route path="/email/:id" element={<EmailDetails/>}/>
-        <Route path="/sentmails" element={<SentMails/>}/>
+        <Route path="/email/:id" element={<EmailDetails />} />
+        <Route path="/sentmails" element={<SentMails />} />
       </Routes>
     </BrowserRouter>
   );

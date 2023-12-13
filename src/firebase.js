@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: "mailbox-client-react",
   storageBucket: "mailbox-client-react.appspot.com",
   messagingSenderId: "1094869749236",
-  appId: "1:1094869749236:web:9c8e7e9d73aba4aca27da1"
+  appId: "1:1094869749236:web:9c8e7e9d73aba4aca27da1",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

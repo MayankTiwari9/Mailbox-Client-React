@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { authActions } from "../../store/auth";
 // import { useAlert } from "react-alert";
 
 const LogInForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const dispatch = useDispatch();
   // const alert = useAlert();
 
   const loginHandler = (e) => {
@@ -42,9 +39,6 @@ const LogInForm = () => {
       .then((data) => {
         localStorage.setItem("token", data.idToken);
         localStorage.setItem("email", email);
-        // dispatch(
-        //   authActions.login({ bearerToken: data.idToken, userId: data.localId })
-        // );
         navigate("/welcome");
       })
       .catch((err) => {

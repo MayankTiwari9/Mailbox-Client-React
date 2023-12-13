@@ -34,17 +34,16 @@ const AllEmails = () => {
           (email) => !prevEmail.some((prevEmail) => prevEmail.id === email.id)
         );
 
-        if(newEmails.length > 0){
+        if (newEmails.length > 0) {
           setAllEmails((prevEmail) => [...prevEmail, ...newEmails]);
 
-          const unreadEmails = filteredEmails.filter((email) => !email.messageRead);
-        setUnreadCount((prevCount) => prevCount + unreadEmails.length);
+          const unreadEmails = filteredEmails.filter(
+            (email) => !email.messageRead
+          );
+          setUnreadCount((prevCount) => prevCount + unreadEmails.length);
         }
 
         setPrevEmails(filteredEmails);
-
-
-        
       } catch (error) {
         console.error("Error fetching emails:", error);
       }
@@ -52,11 +51,11 @@ const AllEmails = () => {
 
     getAllEmails();
 
-    const intervalId =  setInterval(() => {
-      getAllEmails(); 
-     }, 2000)
+    const intervalId = setInterval(() => {
+      getAllEmails();
+    }, 2000);
 
-     return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, [prevEmail]);
 
   const markAsRead = async (id) => {
@@ -75,19 +74,19 @@ const AllEmails = () => {
     }
   };
 
-  const deleteMail = async(id) => {
+  const deleteMail = async (id) => {
     const db = getDatabase(firebaseApp);
     const emailsRef = ref(db, `mails/${id}`);
 
-    try{
+    try {
       await remove(emailsRef, id);
-      setAllEmails((prevEmails) => prevEmails.filter((email) => email.id !== id));
-
-    }
-    catch (error) {
+      setAllEmails((prevEmails) =>
+        prevEmails.filter((email) => email.id !== id)
+      );
+    } catch (error) {
       console.log("Error deleting");
     }
-  }
+  };
 
   return (
     <div>
@@ -107,10 +106,18 @@ const AllEmails = () => {
               <strong> Content:</strong> {email.content}
               <strong> Timestamp:</strong>{" "}
               {new Date(email.timestamp).toLocaleString()}
-              <Link onClick={() => markAsRead(email.id)} to={`/email/${email.id}`}>
+              <Link
+                onClick={() => markAsRead(email.id)}
+                to={`/email/${email.id}`}
+              >
                 Read More
               </Link>
-              <button className="btn btn-danger" onClick={() => deleteMail(email.id)}>Delete</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteMail(email.id)}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
@@ -118,7 +125,10 @@ const AllEmails = () => {
         <p>No emails found.</p>
       )}
 
-      <button onClick={() => navigate("/compose")} className="btn btn-primary mt-3">
+      <button
+        onClick={() => navigate("/compose")}
+        className="btn btn-primary mt-3"
+      >
         Compose Email
       </button>
     </div>
