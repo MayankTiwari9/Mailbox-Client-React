@@ -41,6 +41,7 @@ const LogInForm = () => {
       })
       .then((data) => {
         localStorage.setItem("token", data.idToken);
+        localStorage.setItem("email", email);
         // dispatch(
         //   authActions.login({ bearerToken: data.idToken, userId: data.localId })
         // );

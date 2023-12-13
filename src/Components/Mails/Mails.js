@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -9,9 +9,16 @@ import firebaseApp from "../../firebase";
 const Mails = () => {
   const [email, setEmail] = useState("");
   const [test, setTest] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+
+  useEffect(() => {
+    // Retrieve user email from localStorage
+    const storedEmail = localStorage.getItem("email");
+    setUserEmail(storedEmail);
+  }, []);
 
   const submitEmail = async (e) => {
     e.preventDefault();
@@ -22,6 +29,7 @@ const Mails = () => {
     const newEmail = {
       to: email,
       subject: test,
+      from: userEmail,
       content: editorState.getCurrentContent().getPlainText(),
       timestamp: serverTimestamp(),
     };
