@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const alert = useAlert();
+  // const alert = useAlert();
 
   const signUpHandler = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert.error("Password and Confirm Password must be same");
+      // alert.error("Password and Confirm Password must be same");
       return;
     }
 
@@ -33,11 +33,11 @@ const SignupForm = () => {
       .then((res) => {
         if (res.ok) {
           console.log("User has successfully signed up");
-          alert.success("User has successfully signed up");
+          // alert.success("User has successfully signed up");
           return;
         } else {
           return res.json().then((data) => {
-            alert.error(data.error.message);
+            // alert.error(data.error.message);
             throw new Error("Authentication Failed");
           });
         }

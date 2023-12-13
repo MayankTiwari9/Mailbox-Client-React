@@ -2,14 +2,14 @@ import React, { useState } from "react";
 // import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import { authActions } from "../../store/auth";
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 
 const LogInForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const dispatch = useDispatch();
-  const alert = useAlert();
+  // const alert = useAlert();
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -30,11 +30,11 @@ const LogInForm = () => {
     )
       .then((res) => {
         if (res.ok) {
-          alert.success("User logged in successfully");
+          // alert.success("User logged in successfully");
           return res.json();
         } else {
           return res.json().then((data) => {
-            alert.error(data.error.message);
+            // alert.error(data.error.message);
             throw new Error("Authentication failed");
           });
         }
