@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import dot from "../../images/icons8-blue-circle-16.png";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, remove } from "firebase/database";
 import firebaseApp from "../../firebase";
 
 const AllEmails = () => {
@@ -32,7 +32,6 @@ const AllEmails = () => {
 
         setAllEmails(filteredEmails);
 
-        // Calculate unread count
         const unreadEmails = filteredEmails.filter((email) => !email.messageRead);
         setUnreadCount(unreadEmails.length);
       } catch (error) {
@@ -44,13 +43,11 @@ const AllEmails = () => {
   }, []);
 
   const markAsRead = async (id) => {
-    // Update the local state
     const updatedEmails = allEmails.map((email) =>
       email.id === id ? { ...email, messageRead: true } : email
     );
     setAllEmails(updatedEmails);
 
-    // Update Firebase to mark the email as read
     const db = getDatabase(firebaseApp);
     const emailRef = ref(db, `mails/${id}/messageRead`);
 
@@ -60,6 +57,20 @@ const AllEmails = () => {
       console.error("Error updating messageRead in Firebase:", error);
     }
   };
+
+  const deleteMail = async(id) => {
+    const db = getDatabase(firebaseApp);
+    const emailsRef = ref(db, `mails/${id}`);
+
+    try{
+      await remove(emailsRef, id);
+      setAllEmails((prevEmails) => prevEmails.filter((email) => email.id !== id));
+
+    }
+    catch (error) {
+      console.log("Error deleting");
+    }
+  }
 
   return (
     <div>
@@ -82,6 +93,7 @@ const AllEmails = () => {
               <Link onClick={() => markAsRead(email.id)} to={`/email/${email.id}`}>
                 Read More
               </Link>
+              <button className="btn btn-danger" onClick={() => deleteMail(email.id)}>Delete</button>
             </li>
           ))}
         </ul>

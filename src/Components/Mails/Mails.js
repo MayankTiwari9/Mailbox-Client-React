@@ -40,6 +40,7 @@ const Mails = () => {
     setTest("");
     setEditorState(EditorState.createEmpty());
   };
+  
 
   return (
     <form onSubmit={submitEmail} className="m-4">
