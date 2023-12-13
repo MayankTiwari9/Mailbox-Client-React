@@ -7,6 +7,7 @@ import Mails from "./Components/Mails/Mails";
 import AllEmails from "./Components/Mails/AllEmails";
 import Header from "./Components/Header/Header";
 import EmailDetails from "./Components/Mails/EmailDetails";
+import SentMails from "./Components/Mails/SentMails";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/compose" element={<Mails />} />
         <Route path="/email/:id" element={<EmailDetails/>}/>
+        <Route path="/sentmails" element={<SentMails/>}/>
       </Routes>
     </BrowserRouter>
   );

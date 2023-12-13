@@ -5,10 +5,9 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { getDatabase, ref, set, remove } from "firebase/database";
 import firebaseApp from "../../firebase";
 
-const AllEmails = () => {
+const SentMails = () => {
   const navigate = useNavigate();
   const [allEmails, setAllEmails] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -26,13 +25,10 @@ const AllEmails = () => {
         }));
 
         const filteredEmails = emailsWithId.filter(
-          (email) => email.to === storedEmail
+          (email) => email.from === storedEmail
         );
 
         setAllEmails(filteredEmails);
-
-        const unreadEmails = filteredEmails.filter((email) => !email.messageRead);
-        setUnreadCount(unreadEmails.length);
       } catch (error) {
         console.error("Error fetching emails:", error);
       }
@@ -73,17 +69,11 @@ const AllEmails = () => {
 
   return (
     <div>
-      <h2>Your Inbox</h2>
-      <p>Inbox {unreadCount} Unread</p>
+      <h2>Sent Mails</h2>
       {allEmails.length > 0 ? (
         <ul className="list-group">
           {allEmails.map((email) => (
             <li key={email.id} className="list-group-item">
-              {!email.messageRead && (
-                <span>
-                  <img src={dot} alt="blue dot" />
-                </span>
-              )}
               <strong>Subject:</strong> {email.subject}
               <strong> From:</strong> {email.from}
               <strong> Content:</strong> {email.content}
@@ -107,4 +97,5 @@ const AllEmails = () => {
   );
 };
 
-export default AllEmails;
+export default SentMails;
+
