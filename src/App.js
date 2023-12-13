@@ -6,6 +6,7 @@ import Welcome from "./Components/Welcome/Welcome";
 import Mails from "./Components/Mails/Mails";
 import AllEmails from "./Components/Mails/AllEmails";
 import Header from "./Components/Header/Header";
+import EmailDetails from "./Components/Mails/EmailDetails";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/compose" element={<Mails />} />
+        <Route path="/email/:id" element={<EmailDetails/>}/>
       </Routes>
     </BrowserRouter>
   );

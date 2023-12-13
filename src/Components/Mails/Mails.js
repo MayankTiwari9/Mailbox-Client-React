@@ -15,7 +15,6 @@ const Mails = () => {
   );
 
   useEffect(() => {
-    // Retrieve user email from localStorage
     const storedEmail = localStorage.getItem("email");
     setUserEmail(storedEmail);
   }, []);
@@ -32,6 +31,7 @@ const Mails = () => {
       from: userEmail,
       content: editorState.getCurrentContent().getPlainText(),
       timestamp: serverTimestamp(),
+      messageRead: false
     };
 
     await push(emailsRef, newEmail);
