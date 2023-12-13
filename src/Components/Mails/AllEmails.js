@@ -9,6 +9,7 @@ const AllEmails = () => {
   const navigate = useNavigate();
   const [allEmails, setAllEmails] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [prevEmail, setPrevEmails] = useState([]);
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -29,17 +30,34 @@ const AllEmails = () => {
           (email) => email.to === storedEmail
         );
 
-        setAllEmails(filteredEmails);
+        const newEmails = filteredEmails.filter(
+          (email) => !prevEmail.some((prevEmail) => prevEmail.id === email.id)
+        );
 
-        const unreadEmails = filteredEmails.filter((email) => !email.messageRead);
-        setUnreadCount(unreadEmails.length);
+        if(newEmails.length > 0){
+          setAllEmails((prevEmail) => [...prevEmail, ...newEmails]);
+
+          const unreadEmails = filteredEmails.filter((email) => !email.messageRead);
+        setUnreadCount((prevCount) => prevCount + unreadEmails.length);
+        }
+
+        setPrevEmails(filteredEmails);
+
+
+        
       } catch (error) {
         console.error("Error fetching emails:", error);
       }
     };
 
     getAllEmails();
-  }, []);
+
+    const intervalId =  setInterval(() => {
+      getAllEmails(); 
+     }, 2000)
+
+     return () => clearInterval(intervalId);
+  }, [prevEmail]);
 
   const markAsRead = async (id) => {
     const updatedEmails = allEmails.map((email) =>

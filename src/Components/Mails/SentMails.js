@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import dot from "../../images/icons8-blue-circle-16.png";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { getDatabase, ref, set, remove } from "firebase/database";
 import firebaseApp from "../../firebase";
