@@ -5,6 +5,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./Mails.css";
 import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
 import firebaseApp from "../../firebase";
+import { useAlert } from "react-alert";
+
 
 const Mails = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +15,7 @@ const Mails = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const alert = useAlert();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -35,6 +38,8 @@ const Mails = () => {
     };
 
     await push(emailsRef, newEmail);
+
+    alert.success("Mail Sent");
 
     setEmail("");
     setTest("");

@@ -4,12 +4,14 @@ import dot from "../../images/icons8-blue-circle-16.png";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { getDatabase, ref, set, remove } from "firebase/database";
 import firebaseApp from "../../firebase";
+import { useAlert } from "react-alert";
 
 const AllEmails = () => {
   const navigate = useNavigate();
   const [allEmails, setAllEmails] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [prevEmail, setPrevEmails] = useState([]);
+  const alert = useAlert();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -83,6 +85,7 @@ const AllEmails = () => {
       setAllEmails((prevEmails) =>
         prevEmails.filter((email) => email.id !== id)
       );
+      alert.success("Mail Deleted");
     } catch (error) {
       console.log("Error deleting");
     }
@@ -101,23 +104,23 @@ const AllEmails = () => {
                   <img src={dot} alt="blue dot" />
                 </span>
               )}
-              <strong>Subject:</strong> {email.subject}
-              <strong> From:</strong> {email.from}
-              <strong> Content:</strong> {email.content}
-              <strong> Timestamp:</strong>{" "}
-              {new Date(email.timestamp).toLocaleString()}
-              <Link
-                onClick={() => markAsRead(email.id)}
-                to={`/email/${email.id}`}
-              >
-                Read More
-              </Link>
-              <button
-                className="btn btn-danger"
-                onClick={() => deleteMail(email.id)}
-              >
-                Delete
-              </button>
+              <div className="d-flex justify-content-evenly">
+                <p>{email.from}</p>
+                <p>{email.content}</p>
+                <p>{new Date(email.timestamp).toLocaleString()}</p>
+                <Link
+                  onClick={() => markAsRead(email.id)}
+                  to={`/email/${email.id}`}
+                >
+                  Read More
+                </Link>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deleteMail(email.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>

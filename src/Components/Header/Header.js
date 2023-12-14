@@ -2,20 +2,20 @@ import React from "react";
 
 const Header = () => {
   return (
-    <ul class="nav justify-content-center">
-      <li class="nav-item">
-        <a class="nav-link" href="/">
-          Home
+    <ul className="nav justify-content-center">
+      <li className="nav-item">
+        <a className="nav-link" href="/">
+          Inbox
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">
+      <li className="nav-item">
+        <a className="nav-link" href="/sentmails">
+          Sent Mails
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href="/login">
           Login
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/welcome">
-          welcome
         </a>
       </li>
     </ul>

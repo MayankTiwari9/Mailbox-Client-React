@@ -74,23 +74,23 @@ const SentMails = () => {
         <ul className="list-group">
           {allEmails.map((email) => (
             <li key={email.id} className="list-group-item">
-              <strong>Subject:</strong> {email.subject}
-              <strong> From:</strong> {email.from}
-              <strong> Content:</strong> {email.content}
-              <strong> Timestamp:</strong>{" "}
-              {new Date(email.timestamp).toLocaleString()}
-              <Link
-                onClick={() => markAsRead(email.id)}
-                to={`/email/${email.id}`}
-              >
-                Read More
-              </Link>
-              <button
-                className="btn btn-danger"
-                onClick={() => deleteMail(email.id)}
-              >
-                Delete
-              </button>
+              <div className="d-flex justify-content-evenly">
+                <p>{email.from}</p>
+                <p>{email.content}</p>
+                <p>{new Date(email.timestamp).toLocaleString()}</p>
+                <Link
+                  onClick={() => markAsRead(email.id)}
+                  to={`/email/${email.id}`}
+                >
+                  Read More
+                </Link>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deleteMail(email.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
